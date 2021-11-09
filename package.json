@@ -4,7 +4,8 @@
   "description": "This project will be a web application that will work as a virtual forum",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "keywords": [
     "javascript",
@@ -12,5 +13,9 @@
     "forum"
   ],
   "author": "Gabriel Fajardo <gabo2023brazil@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "faker": "^5.5.3"
+  }
 }
