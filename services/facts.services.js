@@ -12,7 +12,7 @@ class FactsServices{
     for(let i = 0; i < limit; i++){
       this.facts.push({
         id: faker.datatype.uuid(),
-        author: [faker.name.firstName(), faker.name.lastName()],
+        author: faker.name.findName(),
         category: faker.music.genre(),
         title: faker.name.title(),
         content: faker.lorem.paragraphs(),
@@ -28,7 +28,7 @@ class FactsServices{
       ...data
     }
     this.facts.push(newFact);
-    return newProduct;
+    return newFact;
   }
 
   //Get
@@ -43,9 +43,9 @@ class FactsServices{
 
   //Update
   async update (id, changes){
-    const index = this.products.findIndex();
+    const index = this.facts.findIndex(item => item.id === id);
     if(index === -1){
-      throw new Error('Product not found')
+      throw new Error('Fact not found')
     }
     const fact = this.facts[index];
     this.facts[index] = {
@@ -57,9 +57,9 @@ class FactsServices{
 
   //Delete
   async delete (id) {
-    const index = this.products.findIndex();
+    const index = this.facts.findIndex(item => item.id === id);
     if(index === -1){
-      throw new Error('Product not found')
+      throw new Error('Fact not found')
     }
     this.facts.splice(index, 1);
     return {
@@ -67,6 +67,7 @@ class FactsServices{
       id
     }
   }
+
 }
 
 module.exports = FactsServices;

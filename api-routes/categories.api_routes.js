@@ -1,35 +1,33 @@
 const express = require('express');
 const router = express.Router();
+//External stuff: services
+const CategoriesServices = require('../services/categories.services');
 
-//External files (services)
-const FactsServices = require('../services/facts.services');
+const service = new CategoriesServices;
 
-const service = new FactsServices();
-
-//Get Facts
+//Get categories
 router.get('/', async (req, res) => {
-  const facts = await service.find();
-  res.json(facts)
-  console.log(facts.length);
+  const categories = await service.find();
+  res.json(categories)
+  console.log(categories.length);
 });
 
-//Get single fact
-router.get('/:id', async (err, req, res, next) => {//Middlewear
+//Get single category
+router.get('/:id', async (req, res, next ) => {//Middlewear
   try {
     const { id } = req.params;
-    const fact = await service.findOne(id);
-    res.json(fact)
+    const category = await service.findOne(id);
+    res.json(category)
   } catch (error) {
     next(error)
   }
-
 })
 
-//Post fact
+//Post category
 router.post('/', async (req, res) => {
   const body = req.body;
-  const newFact = await service.create(body);
-  res.status(201).json(newFact);
+  const newCategory = await service.create(body);
+  res.status(201).json(newCategory);
 })
 
 //Update
@@ -37,8 +35,8 @@ router.patch('/:id', async (req, res) => {
   try{
       const { id } = req.params;
       const body = req.body;
-      const fact = await service.update(id, body);
-      res.json(fact);
+      const category = await service.update(id, body);
+      res.json(category);
     } catch (err){
     res.status(404).json({
       message: err.message
