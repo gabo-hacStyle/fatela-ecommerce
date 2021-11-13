@@ -12,14 +12,14 @@ router.get('/', async (req, res) => {
 });
 
 //Get single comment
-router.get('/:id', async (req, res) => {//Middlewear pa despues
- // try {
+router.get('/:id', async (req, res, next) => {//Middlewear pa despues
+  try {
     const { id } = req.params;
     const comment = await service.findOne(id);
     res.json(comment)
-  //} catch (error) {
-    //next(error)
- // }
+  } catch (error) {
+    next(error)
+  }
 })
 
 //Post comment
@@ -30,16 +30,14 @@ router.post('/', async (req, res) => {
 })
 
 //Update
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try{
       const { id } = req.params;
       const body = req.body;
       const comment = await service.update(id, body);
       res.json(comment);
-    } catch (err){
-    res.status(404).json({
-      message: err.message
-    })
+    } catch (error){
+    next(error)
   }
 })
 

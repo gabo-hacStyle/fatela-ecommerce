@@ -13,7 +13,6 @@ class CategoriesServices{
       this.categories.push({
         id: faker.datatype.uuid(),
         name: faker.music.genre(),
-        isBlock: faker.datatype.boolean()
       })
     }
   }
@@ -32,14 +31,13 @@ class CategoriesServices{
     return this.categories;
   }
 
+
+
   //Get with ID
   async findOne (id) {
     const category = this.categories.find(item => item.id === id);
     if(!category){
       throw boom.notFound('Categoria no encontrada');
-    }
-    if(category.isBlock){
-      throw boom.conflict('Categoria bloqueada');
     }
     return category;
   }

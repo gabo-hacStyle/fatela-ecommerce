@@ -1,4 +1,5 @@
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 class UsersServices{
 
@@ -15,7 +16,7 @@ class UsersServices{
         mail: faker.internet.email(),
         password: faker.internet.password(),
         avatar: faker.image.avatar(),
-        status: faker.datatype.boolean()
+        isBanned: faker.datatype.boolean()
       })
     }
   }
@@ -36,14 +37,21 @@ class UsersServices{
 
   //Get with ID
   async findOne (id) {
-    return this.users.find(item => item.id === id)
+    const user = this.users.find(item => item.id === id)
+    if(!user){
+      throw boom.notFound('User not found')
+    }
+    if(user.isBanned){
+      throw boom.notAcceptable('User has been banned for bringing bad content into the forum')
+    }
+    return user;
   }
 
   //Update
   async update (id, changes){
     const index = this.users.findIndex(item => item.id === id);
     if(index === -1){
-      throw new Error('User not found')
+      throw boom.notFound('User not found')
     }
     const user = this.users[index];
     this.users[index] = {

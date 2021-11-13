@@ -31,16 +31,14 @@ router.post('/', async (req, res) => {
 })
 
 //Update
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try{
       const { id } = req.params;
       const body = req.body;
       const category = await service.update(id, body);
       res.json(category);
-    } catch (err){
-    res.status(404).json({
-      message: err.message
-    })
+    } catch (error){
+      next(error);
   }
 })
 

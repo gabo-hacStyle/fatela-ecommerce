@@ -1,7 +1,7 @@
 function logErrors(err, req, res, next){
   console.log('Logerrors')
   console.error(err)
-  next(err); //Middlewear de tipo error
+  next(err); //Error Middlewear
 }
 function errorHandler (err, req, res, next){
   res.status(500).json({

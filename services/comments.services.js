@@ -1,4 +1,5 @@
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 class CommentsServices{
 
@@ -21,7 +22,8 @@ class CommentsServices{
         {
           image: faker.image.imageUrl(),
           number: faker.datatype.number()
-        }]
+        }],
+        isBanned: faker.datatype.boolean()
       })
     }
   }
@@ -42,14 +44,21 @@ class CommentsServices{
 
   //Get with ID
   async findOne (id) {
-    return this.comments.find(item => item.id === id)
+    const comment = this.comments.find(item => item.id === id)
+    if(!comment){
+      throw boom.notFound('Comment not found')
+    }
+    if(comment.isBanned){
+      throw boom.notAcceptable('This comment has been banned beacuse it has bad content')
+    }
+    return comment;
   }
 
   //Update
   async update (id, changes){
     const index = this.comments.findIndex(item => item.id === id);
     if(index === -1){
-      throw new Error('Comment not found')
+      throw boom.notFound('Comment not found')
     }
     const comment = this.comments[index];
     this.comments[index] = {

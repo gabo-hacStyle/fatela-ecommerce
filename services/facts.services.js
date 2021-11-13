@@ -1,4 +1,5 @@
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 class FactsServices{
 
@@ -17,7 +18,8 @@ class FactsServices{
         title: faker.name.title(),
         content: faker.lorem.paragraphs(),
         image: faker.image.imageUrl(),
-        description: faker.commerce.productDescription()
+        description: faker.commerce.productDescription(),
+        isBlocked: faker.datatype.boolean()
       })
     }
   }
@@ -38,14 +40,21 @@ class FactsServices{
 
   //Get with ID
   async findOne (id) {
-    return this.facts.find(item => item.id === id)
+    const fact = this.facts.find(item => item.id === id);
+    if(!fact){
+      throw boom.notFound('Fact not found');
+    }
+    if(fact.isBlocked){
+      throw boom.notAcceptable('This fact has been blocked to appear for its bad content')
+    }
+    return fact;
   }
 
   //Update
   async update (id, changes){
     const index = this.facts.findIndex(item => item.id === id);
     if(index === -1){
-      throw new Error('Fact not found')
+      throw boom.notFound('Fact not found')
     }
     const fact = this.facts[index];
     this.facts[index] = {

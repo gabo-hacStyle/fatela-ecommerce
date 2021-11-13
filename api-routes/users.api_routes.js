@@ -12,14 +12,14 @@ router.get('/', async (req, res) => {
 });
 
 //Get single user
-router.get('/:id', async (req, res) => {//Middlewear
- // try {
+router.get('/:id', async (req, res, next) => {
+  try {
     const { id } = req.params;
     const user = await service.findOne(id);
     res.json(user)
-  //} catch (error) {
-    //next(error)
-  //}
+  } catch (error) {
+    next(error)
+  }
 })
 
 //Post user
@@ -29,17 +29,15 @@ router.post('/', async (req, res) => {
   res.status(201).json(newUser);
 })
 
-//Update
-router.patch('/:id', async (req, res) => {
+//Update user
+router.patch('/:id', async (req, res, next) => {
   try{
       const { id } = req.params;
       const body = req.body;
       const user = await service.update(id, body);
       res.json(user);
-    } catch (err){
-    res.status(404).json({
-      message: err.message
-    })
+    } catch (error){
+      next(error)
   }
 })
 

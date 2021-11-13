@@ -1,6 +1,6 @@
 const express = require('express')
 
-const factsRouter = require('./facts.api_router');
+const factsRouter = require('./facts.api_routes');
 const categoriesRouter = require('./categories.api_routes');
 const usersRouter = require('./users.api_routes');
 const commentsRouter = require('./comments.api_routes');

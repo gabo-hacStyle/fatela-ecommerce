@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 //Get single fact
-router.get('/:id', async (err, req, res, next) => {//Middlewear
+router.get('/:id', async (req, res, next) => {//Middlewear
   try {
     const { id } = req.params;
     const fact = await service.findOne(id);
@@ -33,16 +33,14 @@ router.post('/', async (req, res) => {
 })
 
 //Update
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try{
       const { id } = req.params;
       const body = req.body;
       const fact = await service.update(id, body);
       res.json(fact);
-    } catch (err){
-    res.status(404).json({
-      message: err.message
-    })
+    } catch (error){
+      next(error)
   }
 })
 
