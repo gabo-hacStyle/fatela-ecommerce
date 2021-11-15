@@ -10,7 +10,7 @@ function validatorHandler(schema, property){
      * req.body -> post, update
      * req.query -> get
      */
-    const { error } = schema.vaidate(data)
+    const { error } = schema.validate(data, { abortEarly : false })
     if(error){
       next(boom.badRequest(error));
     }

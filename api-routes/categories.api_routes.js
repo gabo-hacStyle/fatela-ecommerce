@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 //External stuff: services
 const CategoriesServices = require('../services/categories.services');
+const validatorHandler = require('../middlewears/validator.handler');
+const { createCategorySchema, updateCategorySchema, getCategorySchema } = require('../schemas/category.schema');
 
 const service = new CategoriesServices;
 
@@ -13,33 +15,39 @@ router.get('/', async (req, res) => {
 });
 
 //Get single category
-router.get('/:id', async (req, res, next ) => {//Middlewear
-  try {
-    const { id } = req.params;
-    const category = await service.findOne(id);
-    res.json(category)
-  } catch (error) {
-    next(error)
-  }
+router.get('/:id',
+  validatorHandler(getCategorySchema, 'params'),//Params as of req.params
+  async (req, res, next ) => {//Middlewear
+    try {
+      const { id } = req.params;
+      const category = await service.findOne(id);
+      res.json(category)
+    } catch (error) {
+      next(error)
+    }
 })
 
 //Post category
-router.post('/', async (req, res) => {
-  const body = req.body;
-  const newCategory = await service.create(body);
-  res.status(201).json(newCategory);
+router.post('/',
+  validatorHandler(createCategorySchema, 'body'),
+  async (req, res) => {
+    const body = req.body;
+    const newCategory = await service.create(body);
+    res.status(201).json(newCategory);
 })
 
 //Update
-router.patch('/:id', async (req, res, next) => {
-  try{
-      const { id } = req.params;
-      const body = req.body;
-      const category = await service.update(id, body);
-      res.json(category);
-    } catch (error){
-      next(error);
-  }
+router.patch('/:id',
+  validatorHandler(updateCategorySchema, 'body'),
+  async (req, res, next) => {
+    try{
+        const { id } = req.params;
+        const body = req.body;
+        const category = await service.update(id, body);
+        res.json(category);
+      } catch (error){
+        next(error);
+    }
 })
 
 router.delete('/:id', async (req, res) => {

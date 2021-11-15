@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 //External stuff: services
 const CommentsServices = require('../services/comments.services');
+const validatorHandler = require('../middlewears/validator.handler');
+const { updateCommentSchema, getCommentSchema, createCommentSchema } = require('../schemas/comment.schema')
 const service = new CommentsServices;
 
 //Get comments
@@ -12,25 +14,31 @@ router.get('/', async (req, res) => {
 });
 
 //Get single comment
-router.get('/:id', async (req, res, next) => {//Middlewear pa despues
-  try {
-    const { id } = req.params;
-    const comment = await service.findOne(id);
-    res.json(comment)
-  } catch (error) {
-    next(error)
-  }
+router.get('/:id',
+  validatorHandler(getCommentSchema, 'params'),
+  async (req, res, next) => {//Middlewear pa despues
+    try {
+      const { id } = req.params;
+      const comment = await service.findOne(id);
+      res.json(comment)
+    } catch (error) {
+      next(error)
+    }
 })
 
 //Post comment
-router.post('/', async (req, res) => {
-  const body = req.body;
-  const newComment = await service.create(body);
-  res.status(201).json(newComment);
+router.post('/',
+  validatorHandler(createCommentSchema, 'body'),
+  async (req, res) => {
+    const body = req.body;
+    const newComment = await service.create(body);
+    res.status(201).json(newComment);
 })
 
 //Update
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id',
+validatorHandler(updateCommentSchema, 'body'),
+async (req, res, next) => {
   try{
       const { id } = req.params;
       const body = req.body;
