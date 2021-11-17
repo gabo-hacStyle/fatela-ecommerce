@@ -21,7 +21,7 @@ const options = {
 }
 
 
-app.use(cors());
+app.use(cors(options));
 
 app.get('/', (req, res) => {
   res.write('Hola este es mi primer servidor')
