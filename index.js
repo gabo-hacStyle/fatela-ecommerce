@@ -13,7 +13,7 @@ app.use(express.json());
 const whiteList = ['http://localhost:8080/', 'http://localhost:3000', 'https://arcane-island-21447.herokuapp.com/']
 const options = {
   origin: (origin, cb) => {
-    if(whiteList.includes(origin) || !origin){
+    if(whiteList.indexOf(origin) !== -1 || !origin){
       cb(null, true);
     }
     cb(new Error('Not allowed to access my API bruh'))
