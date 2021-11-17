@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 //Cors package
 const cors = require('cors');
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewears/error.handler')
@@ -13,7 +13,7 @@ app.use(express.json());
 const whiteList = ['http://localhost:8080/']
 const options = {
   origin: (origin, cb) => {
-    if(whiteList.includes(origin)){
+    if(whiteList.includes(origin) || !origin){
       cb(null, true);
     }
     cb(new Error('Not allowed to access my API bruh'))
