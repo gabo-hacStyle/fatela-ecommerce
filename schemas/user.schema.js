@@ -2,18 +2,25 @@ const Joi = require('joi');
 
 const id = Joi.string().uuid();
 
-const name = Joi.string().alphanum();
+const user = Joi.string().min(4);
+//const isBanned = Joi.boolean();
+const email = Joi.string().email();
+const avatar = Joi.string().uri();
+const password = Joi.string().min(7).max(19);
 
 const createUserSchema = Joi.object({
-  name: name.required(),
+  user: user.required(),
+  email: email.required(),
+  password: password.required(),
+  avatar: avatar.required()
 })
 
-const updateUserSchema = Joi.object({
-  name: name.required()
-})
+//const updateUserSchema = Joi.object({
+//  isBanned: isBanned.required()
+//})
 
 const getUserSchema = Joi.object({
-  id: id.required()
+  id: id.required(),
 })
 
-module.exports = { createUserSchema, updateUserSchema, getUserSchema };
+module.exports = { createUserSchema, /*updateUserSchema,*/ getUserSchema };

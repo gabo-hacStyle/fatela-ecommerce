@@ -4,7 +4,7 @@ const router = express.Router();
 //External files (services)
 const FactsServices = require('../services/facts.services');
 const validatorHandler = require('../middlewears/validator.handler');
-const { createFactSchema, updateFactSchema, getFactSchema } = require('../schemas/fact.schema');
+const { createFactSchema, /*updateFactSchema,*/ getFactSchema } = require('../schemas/facts.schema');
 
 
 const service = new FactsServices();
@@ -41,7 +41,7 @@ router.post('/',
 
 //Update
 router.patch('/:id',
-  validatorHandler(updateFactSchema, 'body'),
+  //validatorHandler(updateFactSchema, 'body'),
   async (req, res, next) => {
     try{
         const { id } = req.params;

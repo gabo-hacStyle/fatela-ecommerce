@@ -19,7 +19,8 @@ class FactsServices{
         content: faker.lorem.paragraphs(),
         image: faker.image.imageUrl(),
         description: faker.commerce.productDescription(),
-        isBlocked: faker.datatype.boolean()
+        isBlocked: faker.datatype.boolean(),
+        date: faker.datatype.datetime()
       })
     }
   }

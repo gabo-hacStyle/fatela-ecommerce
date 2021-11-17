@@ -13,7 +13,7 @@ class UsersServices{
       this.users.push({
         id: faker.datatype.uuid(),
         user: faker.internet.userName(),
-        mail: faker.internet.email(),
+        email: faker.internet.email(),
         password: faker.internet.password(),
         avatar: faker.image.avatar(),
         isBanned: faker.datatype.boolean()

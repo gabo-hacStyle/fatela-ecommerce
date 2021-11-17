@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 //External stuff: services
 const validatorHandler = require('../middlewears/validator.handler');
-const { createUserSchema, updateUserSchema, getUserSchema } = require('../schemas/user.schema');
+const { createUserSchema, /*updateUserSchema,*/ getUserSchema } = require('../schemas/user.schema');
 const UsersServices = require('../services/users.services');
 const service = new UsersServices;
 
@@ -39,7 +39,7 @@ async (req, res) => {
 
 //Update user
 router.patch('/:id',
-  validatorHandler(updateUserSchema, 'body'),
+ // validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
     try{
         const { id } = req.params;
