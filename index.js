@@ -10,7 +10,7 @@ const router_api = require('./api-routes/index')
 //Middlewear para ver información en formato JSON
 app.use(express.json());
 
-const whiteList = ['http://localhost:8080/']
+const whiteList = ['http://localhost:8080/', 'http://localhost:3000', 'https://arcane-island-21447.herokuapp.com/']
 const options = {
   origin: (origin, cb) => {
     if(whiteList.includes(origin) || !origin){
@@ -21,7 +21,7 @@ const options = {
 }
 
 
-app.use(cors(options));
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.write('Hola este es mi primer servidor')
