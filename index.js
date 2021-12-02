@@ -10,18 +10,17 @@ const router_api = require('./api-routes/index')
 //Middlewear para ver información en formato JSON
 app.use(express.json());
 
-const whiteList = ['http://localhost:8080/', 'http://localhost:3000', 'https://arcane-island-21447.herokuapp.com/']
-const options = {
-  origin: (origin, cb) => {
-    if(whiteList.indexOf(origin) !== -1 || !origin){
-      cb(null, true);
-    }
-    cb(new Error('Not allowed to access my API bruh'))
+var whitelist = ['http://localhost:80', 'http://localhost:8000']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
   }
+  callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
-
-app.use(cors(options));
 
 app.get('/', (req, res) => {
   res.write('Hola este es mi primer servidor')
@@ -36,3 +35,5 @@ app.use(boomErrorHandler);
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
+
+module.exports = corsOptionsDelegate;

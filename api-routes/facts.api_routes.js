@@ -6,18 +6,21 @@ const FactsServices = require('../services/facts.services');
 const validatorHandler = require('../middlewears/validator.handler');
 const { createFactSchema, /*updateFactSchema,*/ getFactSchema } = require('../schemas/facts.schema');
 
+//Cors
+const corsOptionsDelegate = require('../index');
 
 const service = new FactsServices();
 
 //Get Facts
-router.get('/', async (req, res) => {
-  const facts = await service.find();
-  res.json(facts)
-  console.log(facts.length);
+router.get('/', corsOptionsDelegate,
+  async (req, res) => {
+    const facts = await service.find();
+    res.json(facts)
+    console.log(facts.length);
 });
 
 //Get single fact
-router.get('/:id',
+router.get('/:id', corsOptionsDelegate,
   validatorHandler(getFactSchema, 'params'),//Params as of req.params
   async (req, res, next) => {//Middlewear
     try {
