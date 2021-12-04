@@ -12,16 +12,14 @@ const corsOptionsDelegate = require('../index');
 const service = new FactsServices();
 
 //Get Facts
-router.get('/', corsOptionsDelegate,
-  async (req, res) => {
+router.get('/',  async (req, res) => {
     const facts = await service.find();
     res.json(facts)
     console.log(facts.length);
 });
 
 //Get single fact
-router.get('/:id', corsOptionsDelegate,
-  validatorHandler(getFactSchema, 'params'),//Params as of req.params
+router.get('/:id', validatorHandler(getFactSchema, 'params'),//Params as of req.params
   async (req, res, next) => {//Middlewear
     try {
       const { id } = req.params;

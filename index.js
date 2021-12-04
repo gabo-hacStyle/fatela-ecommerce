@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewears/error.handler')
 
+console.log(process.env.DB_USER)
 const router_api = require('./api-routes/index')
 
 //Middlewear para ver información en formato JSON
