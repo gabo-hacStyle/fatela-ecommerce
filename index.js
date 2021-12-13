@@ -3,7 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 //Cors package
 const cors = require('cors');
-const { logErrors, errorHandler, boomErrorHandler } = require('./middlewears/error.handler')
+const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewears/error.handler')
 
 console.log(process.env.DB_USER)
 const router_api = require('./api-routes/index')
@@ -32,6 +32,7 @@ router_api(app);
 //Middlewear de errores, llamarlos después de llamar el routing
 //Orden adecuado
 app.use(logErrors);
+app.use(ormErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 

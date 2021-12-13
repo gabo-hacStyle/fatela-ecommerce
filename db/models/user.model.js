@@ -8,8 +8,33 @@ const UserSchema = {
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
-  }
+  },
   //Y asi por cada uno...
+  user: {
+    allowNull: false,
+    unique: true,
+    type: DataTypes.STRING
+  },
+  email: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    unique: true
+  },
+  password: {
+    allowNull: false,
+    type: DataTypes.STRING
+  },
+  avatar: {
+    defaultValue: 'http://gabs.img/image/bruh',
+    type: DataTypes.STRING
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'create_at',
+    defaultValue: Sequelize.NOW
+  }
+
 }
 
 //Extiende este modelo -> POO
