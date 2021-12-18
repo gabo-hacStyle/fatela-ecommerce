@@ -3,7 +3,7 @@ const Joi = require('joi');
 const id = Joi.number();
 
 const user = Joi.string().min(4);
-//const isBanned = Joi.boolean();
+const role = Joi.string();
 const email = Joi.string().email();
 const avatar = Joi.string().uri();
 const password = Joi.string().min(7).max(19);
@@ -13,13 +13,17 @@ const createUserSchema = Joi.object({
   user: user.required(),
   email: email.required(),
   password: password.required(),
-  avatar: avatar
+  avatar: avatar,
+  role: role.required()
 })
 
 const updateUserSchema = Joi.object({
-  avatar: avatar,
+  user: user,
   email: email,
-  user: user
+  role: role,
+  avatar: avatar,
+  password: password,
+  avatar: avatar
 })
 
 const getUserSchema = Joi.object({

@@ -28,6 +28,11 @@ const UserSchema = {
     defaultValue: 'http://gabs.img/image/bruh',
     type: DataTypes.STRING
   },
+  role: {
+    alowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'Usuario del foro'
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
