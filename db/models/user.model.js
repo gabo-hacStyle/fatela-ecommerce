@@ -45,8 +45,11 @@ const UserSchema = {
 //Extiende este modelo -> POO
 class User extends Model {
   //Metodos estáticos
-  static associate(){
-    //associate
+  static associate(models){
+    this.hasOne(models.Participant, {
+      as: 'participant',
+      foreignKey: 'userId'
+  })
   }
   static config(sequelize) {
     return{

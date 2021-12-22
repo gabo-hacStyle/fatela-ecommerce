@@ -17,7 +17,9 @@ class UsersServices{
 
   //Get
   async find (){
-    const rta = await models.User.findAll();
+    const rta = await models.User.findAll({
+      include: ['participant']
+    });
     return rta;
   }
 

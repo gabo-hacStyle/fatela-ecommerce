@@ -10,13 +10,18 @@ class ParticipantsServices{
   }
   //Post
   async create (data) {
-    const newParticipant = await models.Participant.create(data);
+    const newParticipant = await models.Participant.create(data, {
+      include: ['user']
+    })
     return newParticipant;
   }
 
   //Get
   async find (){
-    const rta = await models.Participant.findAll();
+    const rta = await models.Participant.findAll({
+    //Associations
+      include: ['user']
+    });
     return rta;
   }
 

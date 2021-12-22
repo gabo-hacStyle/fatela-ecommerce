@@ -10,11 +10,11 @@ const password = Joi.string().min(7).max(19);
 const createdAt = Joi.date();
 
 const createUserSchema = Joi.object({
-  user: user.required(),
+  //user: user.required(),
   email: email.required(),
   password: password.required(),
-  avatar: avatar,
-  role: role.required()
+  avatar: avatar
+  //role: role.required()
 })
 
 const updateUserSchema = Joi.object({
