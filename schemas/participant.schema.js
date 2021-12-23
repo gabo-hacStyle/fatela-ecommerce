@@ -20,7 +20,7 @@ const createParticipantSchema = Joi.object({
     password: password.required(),
     avatar: avatar,
     user: user.required(),
-    role: role.required()
+    //role: role.required()
   })
 })
 

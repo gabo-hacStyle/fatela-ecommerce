@@ -7,7 +7,7 @@ module.exports = {
     await queryInterface.createTable(USER_TABLE, UserSchema);
   },
 
-  //Opcion para revertir cambio como en git
+//Reverses changes just like with GIT
   down: async (queryInterface) => {
     await queryInterface.drop(USER_TABLE)
   }
