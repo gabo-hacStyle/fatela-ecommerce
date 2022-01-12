@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 //External stuff: services
 const validatorHandler = require('../middlewears/validator.handler');
-const { createUserSchema, /*updateUserSchema,*/ getUserSchema } = require('../schemas/user.schema');
+const { createUserSchema, updateUserSchema, getUserSchema } = require('../schemas/user.schema');
 const UsersServices = require('../services/users.services');
 const service = new UsersServices;
 
 
-//Get usersUser
+//Get users
 router.get('/', async (req, res) => {
   const users = await service.find();
   res.json(users)
@@ -31,15 +31,19 @@ router.get('/:id',
 //Post user
 router.post('/',
 validatorHandler(createUserSchema, 'body'),
-async (req, res) => {
+async (req, res, next) => {
+  try{
   const body = req.body;
   const newUser = await service.create(body);
   res.status(201).json(newUser);
+  } catch (error){
+    next(error)
+  }
 })
 
 //Update user
 router.patch('/:id',
- // validatorHandler(updateUserSchema, 'body'),
+ validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
     try{
         const { id } = req.params;

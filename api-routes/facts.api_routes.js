@@ -4,7 +4,7 @@ const router = express.Router();
 //External files (services)
 const FactsServices = require('../services/facts.services');
 const validatorHandler = require('../middlewears/validator.handler');
-const { createFactSchema, /*updateFactSchema,*/ getFactSchema } = require('../schemas/facts.schema');
+const { createFactSchema, updateFactSchema, getFactSchema } = require('../schemas/facts.schema');
 
 //Cors
 const corsOptionsDelegate = require('../index');
@@ -12,16 +12,14 @@ const corsOptionsDelegate = require('../index');
 const service = new FactsServices();
 
 //Get Facts
-router.get('/', corsOptionsDelegate,
-  async (req, res) => {
+router.get('/',  async (req, res) => {
     const facts = await service.find();
     res.json(facts)
     console.log(facts.length);
 });
 
 //Get single fact
-router.get('/:id', corsOptionsDelegate,
-  validatorHandler(getFactSchema, 'params'),//Params as of req.params
+router.get('/:id', validatorHandler(getFactSchema, 'params'),//Params as of req.params
   async (req, res, next) => {//Middlewear
     try {
       const { id } = req.params;
@@ -36,10 +34,15 @@ router.get('/:id', corsOptionsDelegate,
 //Post fact
 router.post('/',
   validatorHandler(createFactSchema, 'body'),
-  async (req, res) => {
-    const body = req.body;
-    const newFact = await service.create(body);
-    res.status(201).json(newFact);
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newFact = await service.create(body);
+      res.status(201).json(newFact);
+    } catch (error) {
+      next(error)
+    }
+
 })
 
 //Update
