@@ -44,7 +44,7 @@ const FactSchema = {
   },
   categoryId: {
     field: 'category_id',
-    allowNull: true,
+    allowNull: false,
     type: DataTypes.INTEGER,
     references: {
       model: CATEGORY_TABLE,

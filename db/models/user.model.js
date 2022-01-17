@@ -46,11 +46,12 @@ const UserSchema = {
 class User extends Model {
   //Metodos estáticos
   static associate(models){
-    this.hasOne(models.Participant, {
-      as: 'participant',
+    this.hasMany(models.Comment, {
+      as: 'comments',
       foreignKey: 'userId'
-  })
+    })
   }
+
   static config(sequelize) {
     return{
       sequelize,

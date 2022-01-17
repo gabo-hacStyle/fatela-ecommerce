@@ -43,4 +43,4 @@ class Category extends Model {
   }
 }
 
-module.exports = { CATEGORY_TABLE ,CategorySchema, Category };
+module.exports = { CATEGORY_TABLE, CategorySchema, Category };

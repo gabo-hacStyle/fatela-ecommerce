@@ -1,9 +1,9 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { USER_TABLE } = require('./user.model')
 
-const PARTICIPANT_TABLE = 'participant';
+const COMMENT_TABLE = 'comment';
 
-const ParticipantSchema = {
+const CommentSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -11,26 +11,26 @@ const ParticipantSchema = {
     type: DataTypes.INTEGER
   },
   //Y asi por cada uno...
-  name: {
+  author: {
     allowNull: false,
+    unique: false,
     type: DataTypes.STRING
   },
-  lastName: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    field: 'last_name'
+  content: {
+      allowNull: false,
+      unique: false,
+      type: DataTypes.STRING
   },
-  createdAt: {
+  date: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'create_at',
     defaultValue: Sequelize.NOW
   },
+  //Reactions {...}
   userId: {
     field: 'user_id',
-    allowNull: true,
+    allowNull: false,
     type: DataTypes.INTEGER,
-    unique: true,
     references: {
       model: USER_TABLE,
       key: 'id'
@@ -41,7 +41,7 @@ const ParticipantSchema = {
 }
 
 //Extiende este modelo -> POO
-class Participant extends Model {
+class Comment extends Model {
   //Metodos estáticos
   static associate(models){
     this.belongsTo(models.User, {as: 'user'})
@@ -49,11 +49,11 @@ class Participant extends Model {
   static config(sequelize) {
     return{
       sequelize,
-      tableName: PARTICIPANT_TABLE,
-      modelName: 'Participant',
+      tableName: COMMENT_TABLE,
+      modelName: 'Comment',
       timestamps: false
     }
   }
 }
 
-module.exports = { PARTICIPANT_TABLE, ParticipantSchema, Participant };
+module.exports = { COMMENT_TABLE, CommentSchema, Comment };

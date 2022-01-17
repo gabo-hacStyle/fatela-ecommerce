@@ -4,7 +4,6 @@ const factsRouter = require('./facts.api_routes');
 const categoriesRouter = require('./categories.api_routes');
 const usersRouter = require('./users.api_routes');
 const commentsRouter = require('./comments.api_routes');
-const participantsRouter = require('./participants.api_routes')
 
 function apiRouter (app){
   const router = express.Router();
@@ -13,7 +12,6 @@ function apiRouter (app){
   router.use('/categories', categoriesRouter);
   router.use('/users', usersRouter);
   router.use('/comments', commentsRouter);
-  router.use('/participants', participantsRouter)
 }
 
 module.exports = apiRouter;
