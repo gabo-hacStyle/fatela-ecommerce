@@ -1,5 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { USER_TABLE } = require('./user.model')
+const { USER_TABLE } = require('./user.model');
+const { FACT_TABLE } = require('./fact.model');
 
 const COMMENT_TABLE = 'comment';
 
@@ -35,6 +36,18 @@ const CommentSchema = {
       model: USER_TABLE,
       key: 'id'
     },
+    defaultValue: undefined,
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+  },
+  factId: {
+    field: 'fact_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: FACT_TABLE,
+      key: 'id'
+    },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   }
@@ -45,6 +58,7 @@ class Comment extends Model {
   //Metodos estáticos
   static associate(models){
     this.belongsTo(models.User, {as: 'user'})
+    this.belongsTo(models.Fact, {as: 'fact'})
   }
   static config(sequelize) {
     return{

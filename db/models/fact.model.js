@@ -60,7 +60,11 @@ const FactSchema = {
 class Fact extends Model {
   //Metodos estáticos
   static associate(models){
-    this.belongsTo(models.Category, { as: 'category' })
+    this.belongsTo(models.Category, { as: 'category' });
+    this.hasMany(models.Comment, {
+      as: 'comments',
+      foreignKey: 'factId'
+    })
   }
   static config(sequelize) {
     return{

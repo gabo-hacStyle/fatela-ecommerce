@@ -3,15 +3,18 @@ const Joi = require('joi');
 const id = Joi.string().uuid();
 
 const author = Joi.string().max(20);
-const date = Joi.date().greater('1-1-2022');
 const isBanned = Joi.boolean();
 const content = Joi.string();
+const userId = Joi.number().integer();
+const factId = Joi.number().integer();
+
 //const reactions = Joi.array()
 
 const createCommentSchema = Joi.object({
   author: author.required(),
-  date: date.required(),
   content: content.required(),
+  userId: userId,
+  factId: factId.required()
   //reactions: reactions.required()
 })
 
