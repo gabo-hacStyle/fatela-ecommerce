@@ -36,7 +36,6 @@ const CommentSchema = {
       model: USER_TABLE,
       key: 'id'
     },
-    defaultValue: undefined,
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
