@@ -50,6 +50,10 @@ class User extends Model {
       as: 'comments',
       foreignKey: 'userId'
     })
+    this.hasMany(models.Fact, {
+      as: 'facts',
+      foreignKey: 'userId'
+    })
   }
 
   static config(sequelize) {

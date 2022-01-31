@@ -1,5 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { CATEGORY_TABLE } = require('./category.model');
+const { USER_TABLE } = require('./user.model')
 
 const FACT_TABLE = 'fact';
 
@@ -52,6 +53,18 @@ const FactSchema = {
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
+  },
+  userId: {
+    field: 'user_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: USER_TABLE,
+      key: 'id'
+    },
+    defaultValue: 1,
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   }
 
 }
@@ -65,6 +78,7 @@ class Fact extends Model {
       as: 'comments',
       foreignKey: 'factId'
     })
+    this.belongsTo(models.User, { as: 'user' });
   }
   static config(sequelize) {
     return{

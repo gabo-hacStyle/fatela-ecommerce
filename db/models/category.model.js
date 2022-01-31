@@ -20,6 +20,16 @@ const CategorySchema = {
     type: DataTypes.DATE,
     field: 'created_at',
     defaultValue: Sequelize.NOW
+  },
+  image: {
+    allowNull: false,
+    defaultValue: 'https://gabs.com/img/enwqef2389823',
+    type: DataTypes.STRING
+  },
+  color: {
+    allowNull: false,
+    defaultValue: '#dfd',
+    type: DataTypes.STRING
   }
 
 }

@@ -17,7 +17,7 @@ class FactsServices{
   //Get
   async find (){
     const rta = await models.Fact.findAll({
-      include: ['category']
+      include: ['category', 'user']
     });
     return rta;
   }

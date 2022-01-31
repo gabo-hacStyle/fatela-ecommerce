@@ -10,8 +10,8 @@ const router_api = require('./api-routes/index')
 
 //Middlewear para ver información en formato JSON
 app.use(express.json());
-
-var whitelist = ['http://localhost:80', 'http://localhost:8000']
+app.use(cors())
+/*var whitelist = ['http://localhost:80', 'http://localhost:8000']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (whitelist.indexOf(req.header('Origin')) !== -1) {
@@ -20,7 +20,7 @@ var corsOptionsDelegate = function (req, callback) {
     corsOptions = { origin: false } // disable CORS for this request
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
-}
+} */
 
 
 app.get('/', (req, res) => {
@@ -38,5 +38,5 @@ app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
 
-module.exports = corsOptionsDelegate;
+//module.exports = corsOptionsDelegate;
 
