@@ -15,10 +15,17 @@ class FactsServices{
   }
 
   //Get
-  async find (){
-    const rta = await models.Fact.findAll({
-      include: ['category', 'user']
-    });
+  async find (query){
+    const options = {
+      include: ['category', 'user'],
+    }
+    const { limit, offset } = query;
+    //If it receives a klimit and an offset, they will be added to the 'options' variable
+    if (limit && offset) {
+      options.limit = limit;
+      options.offset = offset;
+    }
+    const rta = await models.Fact.findAll(options);
     return rta;
   }
 

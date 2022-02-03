@@ -4,18 +4,21 @@ const router = express.Router();
 //External files (services)
 const FactsServices = require('../services/facts.services');
 const validatorHandler = require('../middlewears/validator.handler');
-const { createFactSchema, updateFactSchema, getFactSchema } = require('../schemas/facts.schema');
+const { createFactSchema, updateFactSchema, getFactSchema, queryProductSchema } = require('../schemas/facts.schema');
+const { query } = require('express');
 
 //Cors
-const corsOptionsDelegate = require('../index');
 
 const service = new FactsServices();
 
 //Get Facts
-router.get('/',  async (req, res) => {
-    const facts = await service.find();
-    res.json(facts)
-    console.log(facts.length);
+router.get('/', 
+    validatorHandler(queryProductSchema, 'query'),
+    async (req, res) => {
+        const facts = await service.find(req.query);
+        res.json(facts)
+        console.log(req.query)
+        console.log(facts.length);
 });
 
 //Get single fact

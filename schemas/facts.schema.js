@@ -8,6 +8,12 @@ const content = Joi.string();
 const title = Joi.string();
 const description = Joi.string();
 const categoryId = Joi.number().integer();
+const userId = Joi.number().integer();
+
+
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 
 const createFactSchema = Joi.object({
   author: author.required(),
@@ -15,7 +21,8 @@ const createFactSchema = Joi.object({
   title: title.required(),
   description: description.required(),
   image: image,
-  categoryId: categoryId.required()
+  categoryId: categoryId.required(),
+  userId: userId
 })
 
 const updateFactSchema = Joi.object({
@@ -30,5 +37,9 @@ const updateFactSchema = Joi.object({
 const getFactSchema = Joi.object({
   id: id.required()
 })
+const queryProductSchema = Joi.object({
+  limit: limit,
+  offset: offset
+})
 
-module.exports = { createFactSchema, updateFactSchema, getFactSchema };
+module.exports = { createFactSchema, updateFactSchema, getFactSchema, queryProductSchema };
