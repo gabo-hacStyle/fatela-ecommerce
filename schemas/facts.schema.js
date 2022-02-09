@@ -1,37 +1,45 @@
 const Joi = require('joi');
 
-const id = Joi.string().uuid();
+const id = Joi.number().integer();
 
 const author = Joi.string().max(20);
 const image = Joi.string().uri();
-const date = Joi.date().greater('1-1-2022');
 const content = Joi.string();
 const title = Joi.string();
-const category = Joi.string();
-const description = Joi.string()
+const description = Joi.string();
+const categoryId = Joi.number().integer();
+const userId = Joi.number().integer();
+
+
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 
 const createFactSchema = Joi.object({
   author: author.required(),
-  image: image.required(),
-  date: date.required(),
   content: content.required(),
   title: title.required(),
-  category: category.required(),
-  description: description.required()
+  description: description.required(),
+  image: image,
+  categoryId: categoryId.required(),
+  userId: userId
 })
 
-//const updateFactSchema = Joi.object({
-//  author: author.required(),
-//  image: image.required(),
-//  date: date.required(),
-//  content: content.required(),
-//  title: title.required(),
-//  category: category.required()
-//
-//})
+const updateFactSchema = Joi.object({
+  author: author,
+  image: image,
+  content: content,
+  title: title,
+  description: description,
+  categoryId: categoryId
+})
 
 const getFactSchema = Joi.object({
   id: id.required()
 })
+const queryProductSchema = Joi.object({
+  limit: limit,
+  offset: offset
+})
 
-module.exports = { createFactSchema, /*updateFactSchema*/ getFactSchema };
+module.exports = { createFactSchema, updateFactSchema, getFactSchema, queryProductSchema };

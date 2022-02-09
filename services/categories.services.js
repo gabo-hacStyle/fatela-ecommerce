@@ -1,41 +1,29 @@
-const faker = require('faker');
 const boom = require('@hapi/boom')
+const { models } = require('../libs/sequelize')
 
 class CategoriesServices{
 
   constructor(){
     this.categories = [];
-    this.generate();
   }
-  generate() {
-    const limit = 10;
-    for(let i = 0; i < limit; i++){
-      this.categories.push({
-        id: faker.datatype.uuid(),
-        name: faker.music.genre(),
-      })
-    }
-  }
+
   //Post
   async create (data) {
-    const newCategory = {
-      id: faker.datatype.uuid(),
-      ...data
-    }
-    this.categories.push(newCategory);
+    const newCategory = await models.Category.create(data);
     return newCategory;
   }
 
   //Get
   async find (){
-    return this.categories;
+    const rta = await models.Category.findAll();
+    return rta;
   }
-
-
 
   //Get with ID
   async findOne (id) {
-    const category = this.categories.find(item => item.id === id);
+    const category = await models.Category.findByPk(id, {
+      include: ['facts']
+    });
     if(!category){
       throw boom.notFound('Categoria no encontrada');
     }
@@ -44,29 +32,16 @@ class CategoriesServices{
 
   //Update
   async update (id, changes){
-    const index = this.categories.findIndex(item => item.id === id);
-    if(index === -1){
-      throw boom.notFound('Categoria no encontrada');
-    }
-    const category = this.categories[index];
-    this.categories[index] = {
-      ...category,
-      ...changes
-    };
-    return this.categories[index]
+    const category = await this.findOne(id);
+    const rta = await category.update(changes);
+    return rta;
   }
 
   //Delete
   async delete (id) {
-    const index = this.categories.findIndex(item => item.id === id);
-    if(index === -1){
-      throw new Error('Category not found')
-    }
-    this.categories.splice(index, 1);
-    return {
-      message: true,
-      id
-    }
+    const category = await this.findOne(id);
+    await category.destroy();
+    return { id };
   }
 }
 module.exports = CategoriesServices;

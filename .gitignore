@@ -200,3 +200,5 @@ $RECYCLE.BIN/
 
 #Archivos solo de persistencia en mi maquina (postgres)
 postgres_data
+#Archivos solo de persistencia en mi maquina (mysql)
+mysql_data

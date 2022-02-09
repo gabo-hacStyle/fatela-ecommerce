@@ -1,47 +1,37 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
+
+const { models } = require('../libs/sequelize')
 
 class FactsServices{
 
   constructor(){
     this.facts = [];
-    this.generate();
   }
 
-  generate(){
-    const limit = 25;
-    for(let i = 0; i < limit; i++){
-      this.facts.push({
-        id: faker.datatype.uuid(),
-        author: faker.name.findName(),
-        category: faker.music.genre(),
-        title: faker.name.title(),
-        content: faker.lorem.paragraphs(),
-        image: faker.image.imageUrl(),
-        description: faker.commerce.productDescription(),
-        isBlocked: faker.datatype.boolean(),
-        date: faker.datatype.datetime()
-      })
-    }
-  }
   //Post
   async create (data) {
-    const newFact = {
-      id: faker.datatype.uuid(),
-      ...data
-    }
-    this.facts.push(newFact);
+    const newFact = await models.Fact.create(data);
     return newFact;
   }
 
   //Get
-  async find (){
-    return this.facts;
+  async find (query){
+    const options = {
+      include: ['category', 'user'],
+    }
+    const { limit, offset } = query;
+    //If it receives a klimit and an offset, they will be added to the 'options' variable
+    if (limit && offset) {
+      options.limit = limit;
+      options.offset = offset;
+    }
+    const rta = await models.Fact.findAll(options);
+    return rta;
   }
 
   //Get with ID
   async findOne (id) {
-    const fact = this.facts.find(item => item.id === id);
+    const fact = await models.Fact.findByPk(id);
     if(!fact){
       throw boom.notFound('Fact not found');
     }
@@ -53,31 +43,18 @@ class FactsServices{
 
   //Update
   async update (id, changes){
-    const index = this.facts.findIndex(item => item.id === id);
-    if(index === -1){
-      throw boom.notFound('Fact not found')
-    }
-    const fact = this.facts[index];
-    this.facts[index] = {
-      ...fact,
-      ...changes
-    };
-    return this.facts[index]
+    //Already does the verifcation process to check whether the fact exists or not
+    const fact = await this.findOne(id);
+    const rta = await fact.update(changes);
+    return rta ;
   }
 
   //Delete
   async delete (id) {
-    const index = this.facts.findIndex(item => item.id === id);
-    if(index === -1){
-      throw new Error('Fact not found')
-    }
-    this.facts.splice(index, 1);
-    return {
-      message: true,
-      id
-    }
+    const fact = await this.findOne(id);
+    await fact.destroy();
+    return { id };
   }
-
 }
 
 module.exports = FactsServices;
