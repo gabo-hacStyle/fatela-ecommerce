@@ -5,22 +5,19 @@ const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewears/error.handler')
 
-const router_api = require('./api-routes/index')
+const router_api = require('./api-routes/index');
+
 
 //Middlewear para ver información en formato JSON
 app.use(express.json());
 
-var whitelist = ['http://localhost:80', 'http://localhost:8000']
-var corsOptionsDelegate = function (req, callback) {
-  var corsOptions;
-  if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false } // disable CORS for this request
-  }
-  callback(null, corsOptions) // callback expects two parameters: error and options
-}
-
+//Using cors
+app.use(
+  cors({
+    origin: "http://127.0.0.1:8000",
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  })
+)
 
 app.get('/', (req, res) => {
   res.write('Hola este es mi primer servidor')
@@ -35,5 +32,3 @@ app.use(boomErrorHandler);
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
-
-module.exports = corsOptionsDelegate;
