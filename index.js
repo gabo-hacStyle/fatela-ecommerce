@@ -7,7 +7,6 @@ const { logErrors, errorHandler, boomErrorHandler } = require('./middlewears/err
 
 const router_api = require('./api-routes/index');
 
-
 //Middlewear para ver información en formato JSON
 app.use(express.json());
 
@@ -28,6 +27,7 @@ router_api(app);
 //Middlewear de errores, llamarlos después de llamar el routing
 //Orden adecuado
 app.use(logErrors);
+app.use(ormErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
