@@ -1,17 +1,39 @@
-const express = require('express')
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+//Cors package
+const cors = require('cors');
+const { logErrors, errorHandler, boomErrorHandler } = require('./middlewears/error.handler')
 
-const factsRouter = require('./facts.api_routes');
-const categoriesRouter = require('./categories.api_routes');
-const usersRouter = require('./users.api_routes');
-const commentsRouter = require('./comments.api_routes');
+const router_api = require('./api-routes/index')
 
-function apiRouter (app){
-  const router = express.Router();
-  app.use('/api/v1', router);
-  router.use('/facts', factsRouter);
-  router.use('/categories', categoriesRouter);
-  router.use('/users', usersRouter);
-  router.use('/comments', commentsRouter);
+//Middlewear para ver información en formato JSON
+app.use(express.json());
+
+var whitelist = ['http://localhost:80', 'http://localhost:8000']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
-module.exports = apiRouter;
+
+app.get('/', (req, res) => {
+  res.write('Hola este es mi primer servidor')
+})
+
+router_api(app);
+
+//Middlewear de errores, llamarlos después de llamar el routing
+//Orden adecuado
+app.use(logErrors);
+app.use(boomErrorHandler);
+app.use(errorHandler);
+
+app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
+
+module.exports = corsOptionsDelegate;
