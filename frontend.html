@@ -9,9 +9,12 @@
 <body>
     <script>
       (async () => {
-        const response = await fetch('http://localhost:3000/api/v1/categories');
+        const response = await fetch('http://localhost:3000/api/v1/facts');
         const data = await response.json();
-        document.write(data);
+        console.log(data);
+        for(let i = 0; i < data.length; i++) {
+          console.table(data[i].author);
+        }
       })();
     </script>
 </body>
