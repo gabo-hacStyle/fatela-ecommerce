@@ -7,8 +7,6 @@ const validatorHandler = require('../middlewears/validator.handler');
 const { createFactSchema, updateFactSchema, getFactSchema, queryProductSchema } = require('../schemas/facts.schema');
 const { query } = require('express');
 
-//Cors
-
 const service = new FactsServices();
 
 //Get Facts
