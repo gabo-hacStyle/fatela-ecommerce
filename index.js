@@ -3,7 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 //Cors package
 const cors = require('cors');
-const { logErrors, errorHandler, boomErrorHandler } = require('./middlewears/error.handler')
+const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewears/error.handler')
 
 const router_api = require('./api-routes/index');
 
@@ -13,7 +13,7 @@ app.use(express.json());
 //Using cors
 app.use(
   cors({
-    origin: "http://127.0.0.1:8000",
+    origin: "http://localhost:8000",
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
   })
 )
