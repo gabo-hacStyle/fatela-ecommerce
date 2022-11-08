@@ -32,7 +32,7 @@
     "sequelize": "^6.25.3"
   },
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   },
   "devDependencies": {
     "sequelize-cli": "^6.5.2"
